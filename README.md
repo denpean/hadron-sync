@@ -8,6 +8,56 @@ Version 1.10.0 (2026-09-24)
 
 Two-way synchronization of any number of local folders with folders in Proton Drive, with a tray icon, settings window, and interface in German, English, Spanish, and French. Built on the official [Proton Drive CLI](https://proton.me/support/drive-cli).
 
+## Hadron Sync – Development History
+
+All versions since the rename from "Proton Drive Sync" (working title) to Hadron Sync, with the most important functional
+changes for each. Versions before 1.4.0 are summarized from memory of the original development; from 1.4.1
+onward, every line comes directly from a specific change discussed here.
+
+A note on the date: `APP_VERSION` and `APP_DATE` are fixed in the code. The date was set once when it was
+introduced (1.5.0) and was not updated with every subsequent version — the app still shows 2026-09-23 for
+every version from 1.5.0 onward, even though later versions were actually built on 2026-09-24. This is a
+small, cosmetic bug that is still open.
+
+### Before this development series
+
+| Version | Key change |
+|---|---|
+| 1.0.0 | First release: sync engine, GTK interface, tray icon, four languages, installer |
+| 1.1.0 | Interrupted syncs resume; progress display; lighter-weight polling |
+| 1.2.0 | Renamed to Hadron Sync; automatic takeover of settings from "Proton Drive Sync" |
+| 1.2.1 | **Fix:** replaced `-c` with `--file-conflict-strategy` (compatibility with CLI version 0.8.0) |
+| 1.3.0 | Automatic second attempt without thumbnail on the corresponding error; setting for it |
+| 1.4.0 | Parallel reading of Proton Drive (default: 4 concurrent requests), retry with backoff |
+
+### This development series
+
+| Version | Key change |
+|---|---|
+| 1.4.1 | **Fix:** files renamed by the Proton CLI on download (`"` → `_`) were not recognized and discarded as incomplete – would have silently caused endless duplicates |
+| 1.5.0 | Removed all mentions of "Proton Drive Sync"; added contact address; version display now includes a date; installer and uninstaller available in German, English, Spanish, French |
+| 1.5.1 | **Fix:** the CLI's error message for failed thumbnails was written only to standard output, not to standard error – the automatic retry without a thumbnail therefore never triggered |
+| 1.5.2 | **Fix:** filenames containing `[` `]` `*` `?` were read by the CLI as search patterns and failed to upload ("No paths matched") – these characters are now escaped |
+| 1.6.0 | Setup wizard for first-time configuration (detects a previous installation, offers to take it over or start fresh); logo in the main window; Proton Drive storage usage display; progress bar with estimated time remaining; color-highlighted log |
+| 1.7.0 | Moved core settings into their own settings window; **Fix:** changed settings only took effect after a restart while a sync was running – they now apply immediately, with a prompt asking whether a running sync should be restarted |
+| 1.8.0 | Change log for faster detection between multiple devices: each device writes its uploads/deletions to its own file under `/my-files/.hadron-sync/` (always in the Proton Drive root), other devices poll this every 60 seconds and sync the affected files directly; bookmarks instead of marking entries as done; 7-day retention; automatically recreated if the folder is deleted |
+| 1.9.0 | Removed the storage usage display again; the tray icon now distinguishes "comparing files" from "actually uploading/downloading"; notification when a sync with changes completes |
+| 1.9.1 | **Fix:** if folder monitoring failed for even a single folder (e.g. the inotify limit was reached), monitoring shut down completely for *all* folder pairs instead of only the rest being affected; **Fix:** plain content changes without renaming triggered no reaction, because the code only waited for an additional hint from GTK that isn't guaranteed, instead of reacting to the change event itself |
+| 1.9.2 | **Fix:** every saved setting rebuilt the entire folder monitoring setup from scratch – with several thousand folders this noticeably to permanently blocked the interface ("not responding"). Monitoring is now only rebuilt when something actually relevant changed, and the interface stays responsive while it does |
+| 1.10.0 | A local file change now immediately interrupts a running full or quick sync and gets synced first, in a targeted way, instead of waiting for it to finish; reading Proton Drive can now be checkpointed for this – an interruption no longer discards the progress made so far; **Fix:** the very first local change before a folder pair's first full sync had ever completed is now cleanly redirected into a regular initial sync instead of failing |
+
+### Recurring themes
+
+A few changes run through several versions and can be grouped like this:
+
+- **Robustness against the Proton CLI itself** (1.4.1, 1.5.1, 1.5.2): several bugs arose because the CLI
+  alters filenames internally or writes error messages to an unexpected place.
+- **The interface grew step by step** (1.6.0 → 1.9.0): from a plain log window to a setup wizard, its own
+  settings window, progress display, and notifications – the storage usage display was introduced on a trial
+  basis (1.6.0) and removed again at explicit request (1.9.0).
+- **Behavior with several thousand folders** (1.9.1, 1.9.2, 1.10.0): three related problems, found one after
+  another, that only became noticeable with a very large folder structure in the first place.
+
 ## Installation
 
 ```
