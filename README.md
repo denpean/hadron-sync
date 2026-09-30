@@ -1,6 +1,6 @@
 # Hadron Sync
 
-Version 1.10.0 (2026-09-24)
+Version 1.10.1 (2026-09-28)
 
 **Author:** Dennis Peteranderl · **Contact:** hadron.unfreeze611@passmail.net
 
