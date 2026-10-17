@@ -1,6 +1,6 @@
 # Hadron Sync
 
-Version 1.10.0 (2026-09-24)
+Version 1.10.1 (2026-09-28)
 
 **Author:** Dennis Peteranderl · **Contact:** hadron.unfreeze611@passmail.net
 
@@ -45,6 +45,7 @@ small, cosmetic bug that is still open.
 | 1.9.1 | **Fix:** if folder monitoring failed for even a single folder (e.g. the inotify limit was reached), monitoring shut down completely for *all* folder pairs instead of only the rest being affected; **Fix:** plain content changes without renaming triggered no reaction, because the code only waited for an additional hint from GTK that isn't guaranteed, instead of reacting to the change event itself |
 | 1.9.2 | **Fix:** every saved setting rebuilt the entire folder monitoring setup from scratch – with several thousand folders this noticeably to permanently blocked the interface ("not responding"). Monitoring is now only rebuilt when something actually relevant changed, and the interface stays responsive while it does |
 | 1.10.0 | A local file change now immediately interrupts a running full or quick sync and gets synced first, in a targeted way, instead of waiting for it to finish; reading Proton Drive can now be checkpointed for this – an interruption no longer discards the progress made so far; **Fix:** the very first local change before a folder pair's first full sync had ever completed is now cleanly redirected into a regular initial sync instead of failing |
+| 1.10.1 | **Fix:** a Proton CLI lock file left corrupted by a hard reset or crash made every sync fail; a clearly damaged, stale lock file is now moved aside so the CLI recreates it. Long CLI error messages are now shortened by keeping both the start and the end, since the actual cause is usually at the end |
 
 ### Recurring themes
 
