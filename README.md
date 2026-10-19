@@ -1,6 +1,6 @@
 # Hadron Sync
 
-Version 1.10.1 (2026-09-28)
+Version 1.10.2 (2026-10-19)
 
 **Author:** Dennis Peteranderl · **Contact:** hadron.unfreeze611@passmail.net
 
@@ -46,6 +46,7 @@ small, cosmetic bug that is still open.
 | 1.9.2 | **Fix:** every saved setting rebuilt the entire folder monitoring setup from scratch – with several thousand folders this noticeably to permanently blocked the interface ("not responding"). Monitoring is now only rebuilt when something actually relevant changed, and the interface stays responsive while it does |
 | 1.10.0 | A local file change now immediately interrupts a running full or quick sync and gets synced first, in a targeted way, instead of waiting for it to finish; reading Proton Drive can now be checkpointed for this – an interruption no longer discards the progress made so far; **Fix:** the very first local change before a folder pair's first full sync had ever completed is now cleanly redirected into a regular initial sync instead of failing |
 | 1.10.1 | **Fix:** a Proton CLI lock file left corrupted by a hard reset or crash made every sync fail; a clearly damaged, stale lock file is now moved aside so the CLI recreates it. Long CLI error messages are now shortened by keeping both the start and the end, since the actual cause is usually at the end |
+| 1.10.2 | **Fix:** clicking "Sign in" or "Browse …" (Proton Drive folder picker) in the main window crashed with `AttributeError: 'SyncApp' object has no attribute 'e_cli'` – both reused a text field that only exists in the separate settings window; they now use the configured CLI path directly, like the rest of the main window already did |
 
 ### Recurring themes
 
