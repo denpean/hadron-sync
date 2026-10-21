@@ -1,0 +1,53 @@
+{
+  "name": "parallel-editor",
+  "productName": "Parallel Editor",
+  "version": "0.1.0",
+  "description": "Zweispaltiger Markdown-Editor zum Übersetzen und Abgleichen langer Texte",
+  "main": "src/main/main.js",
+  "author": "Parallel Editor",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "npm run build && electron . --no-sandbox",
+    "test": "node --test \"test/*.test.*js\"",
+    "dist": "npm run build && electron-builder --linux deb AppImage"
+  },
+  "build": {
+    "appId": "local.parallel-editor",
+    "productName": "Parallel Editor",
+    "files": [
+      "src/main/**",
+      "src/renderer/index.html",
+      "src/renderer/styles.css",
+      "dist/**",
+      "package.json"
+    ],
+    "linux": {
+      "category": "Office",
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "maintainer": "Parallel Editor"
+    }
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "^0.9.12",
+    "jszip": "^3.10.2",
+    "markdown-it": "^15.0.3"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.27.3",
+    "@tiptap/extension-link": "^2.27.3",
+    "@tiptap/extension-table": "^2.27.3",
+    "@tiptap/extension-table-cell": "^2.27.3",
+    "@tiptap/extension-table-header": "^2.27.3",
+    "@tiptap/extension-table-row": "^2.27.3",
+    "@tiptap/pm": "^2.27.3",
+    "@tiptap/starter-kit": "^2.27.3",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "tiptap-markdown": "^0.8.10"
+  }
+}

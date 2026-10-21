@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Parallel Editor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="toolbar">
+    <button data-cmd="import-orig">Original importieren</button>
+    <button data-cmd="import-trans">Übersetzung importieren</button>
+    <span class="sep"></span>
+    <button data-cmd="save">Speichern</button>
+    <button data-cmd="export-md">Export Markdown</button>
+    <button data-cmd="export-odt">Export ODT</button>
+    <span class="sep"></span>
+    <button data-cmd="find">Suchen / Ersetzen</button>
+    <span class="sep"></span>
+    <button data-cmd="undo" title="Zellenänderung rückgängig (Strg+Z außerhalb des Editors)">↶</button>
+    <button data-cmd="redo" title="Wiederholen">↷</button>
+  </div>
+  <div id="fmtbar" aria-label="Formatierung">
+    <button data-fmt="bold" title="Fett (Strg+B)"><b>F</b></button>
+    <button data-fmt="italic" title="Kursiv (Strg+I)"><i>K</i></button>
+    <button data-fmt="strike" title="Durchgestrichen"><s>S</s></button>
+    <span class="sep"></span>
+    <button data-fmt="h1">H1</button><button data-fmt="h2">H2</button><button data-fmt="h3">H3</button>
+    <span class="sep"></span>
+    <button data-fmt="ul" title="Aufzählung">• Liste</button>
+    <button data-fmt="ol" title="Nummerierung">1. Liste</button>
+    <button data-fmt="quote" title="Zitat">❝</button>
+    <button data-fmt="code" title="Codeblock">&lt;/&gt;</button>
+    <button data-fmt="link" title="Link">Link</button>
+    <button data-fmt="hr" title="Trennlinie">―</button>
+    <span class="hint">Klick in die Übersetzung zum Bearbeiten · Alt+↑/↓ nächster/vorheriger Absatz · Esc beendet · Rechtsklick: Zuordnung korrigieren</span>
+  </div>
+  <div id="searchbar" hidden>
+    <input id="q" placeholder="Suchen" autocomplete="off">
+    <input id="rep" placeholder="Ersetzen durch" autocomplete="off">
+    <select id="scope"><option value="trans">Übersetzung</option><option value="orig">Original</option><option value="both">Beide</option></select>
+    <label><input type="checkbox" id="cs"> Aa</label>
+    <label><input type="checkbox" id="re"> Regex</label>
+    <button id="prev">▲</button><button id="next">▼</button>
+    <button id="replace1">Ersetzen</button><button id="replaceAll">Alle ersetzen</button>
+    <span id="hits"></span>
+    <button id="closeSearch" title="Schließen (Esc)">✕</button>
+  </div>
+  <div id="scroller">
+    <div id="heads" class="grid"><div id="headOrig">Original (schreibgeschützt)</div><div id="headTrans">Übersetzung</div></div>
+    <div id="rows"></div>
+    <div id="empty" hidden>Importiere ein Original und eine Übersetzung über das Menü „Datei“.</div>
+  </div>
+  <div id="status"></div>
+  <div id="ctx" hidden></div>
+  <dialog id="dlg"><form method="dialog"><label id="dlgLabel"></label><input id="dlgInput" autocomplete="off"><menu><button value="cancel">Abbrechen</button><button value="ok" id="dlgOk">OK</button></menu></form></dialog>
+  <script src="../../dist/renderer.js"></script>
+</body>
+</html>
